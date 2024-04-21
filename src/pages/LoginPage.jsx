@@ -14,6 +14,7 @@ import {
   useColorModeValue,
   InputGroup,
   InputRightElement,
+  FormHelperText,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
@@ -25,7 +26,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
       email: "" ,
       password: ""
     });
-    const [username, setUsername] = useState(false);
+    const [isEmail, setIsEmail] = useState(false);
     const [isPassword, setIsPassword] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -36,6 +37,15 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
     }
     const submitHandler = (e) => {
       e.preventDefault()
+      if(!user.email) {
+        setIsEmail(true)
+        if(!user.password) {
+          setIsPassword(true)
+        }
+        return ;
+      }
+      setIsEmail(false)
+      setIsPassword(false)
     }
   return (
     <Flex
@@ -61,11 +71,14 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
               <Input type="email" 
-                isInvalid errorBorderColor='crimson' 
+                isInvalid={isEmail} errorBorderColor='crimson' 
                 value={user.email}
                 name={"email"}
                 onChange={onChangeHandler}
               />
+              {
+                isEmail ? <FormHelperText color={"red.500"}>Email is Required *</FormHelperText> : null
+              }
             </FormControl>
 
             <FormControl id="password">
@@ -73,7 +86,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
                 <InputGroup>
                   <Input type={showPassword ? "text" : "password"}
                     value={user.password}
-                    isInvalid errorBorderColor='crimson'
+                    isInvalid={isPassword} errorBorderColor='crimson'
                     name={"password"}
                     onChange={onChangeHandler}
                   /> 
@@ -93,6 +106,9 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
                     </Button>
                   </InputRightElement>
                 </InputGroup>
+                {
+                  isEmail ? <FormHelperText color={"red.500"}>Password is Required *</FormHelperText> : null
+                }
             </FormControl>
 
             <Stack spacing={10}>
@@ -104,11 +120,11 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
                 <Text color={'blue.400'}>Forgot password?</Text>
               </Stack>
               <Button
-                bg={'blue.400'}
+                bg={isEmail || isPassword ? "red.500" : 'blue.400' }
                 color={'white'}
                 type="submit"
                 _hover={{
-                  bg: 'blue.500',
+                  bg: isEmail || isPassword ? "red.600" : 'blue.600' ,
                 }}>
                 Sign in
               </Button>
