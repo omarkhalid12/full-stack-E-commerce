@@ -6,7 +6,7 @@ import axios from "axios"
 const ProductsPage = () => {
   const [productList, setProductList] = useState([])
   useEffect(() => {
-    axios.get("http://localhost:1337/api/products")
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/api/products?populate=thumbnail,category`)
     .then(res => setProductList(res.data.data))
     .catch(err => console.log(err))
   }, [])
