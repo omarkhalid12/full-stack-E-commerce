@@ -9,11 +9,13 @@ const ProductsPage = () => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_SERVER_URL}/api/products?populate=thumbnail,category`
     );
+    console.log(data)
+
     return data;
   }
 
-  const {data, isLoading, error} = useQuery('products', () => getProductList)
-  console.log(error);
+  const {data, isLoading} = useQuery(["products"], getProductList)
+
   if(isLoading) return(
     <Grid margin={30} templateColumns={"repeat(auto-fill, minmax(300px, 1fr))"} gap={6}>
       {Array.from({length: 20 }, (_, index) => (

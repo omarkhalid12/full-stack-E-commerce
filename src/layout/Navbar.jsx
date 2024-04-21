@@ -10,9 +10,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
-  Stack,
   useColorMode,
   Center,
   HStack,
@@ -44,7 +42,7 @@ const NavLink = ({ children }) => {
 
 const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode()
-  const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -60,11 +58,11 @@ const NavBar = () => {
           </HStack>
 
           <Flex alignItems={'center'}>
-            <Stack direction={'row'} spacing={7}>
+            <HStack direction={'row'} spacing={7}>
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <BsMoon /> : <BsSun />}
               </Button>
-
+              <Link to='/login'>Login</Link>
               <Menu>
                 <MenuButton
                   as={Button}
@@ -96,7 +94,7 @@ const NavBar = () => {
                   <MenuItem>Logout</MenuItem>
                 </MenuList>
               </Menu>
-            </Stack>
+            </HStack>
           </Flex>
 
         </Flex>
