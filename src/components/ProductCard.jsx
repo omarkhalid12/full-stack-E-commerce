@@ -8,7 +8,7 @@ const ProductCard = ({ attributes }) => {
     <Card border={"1px solid #a8b5c8"} bg={"none"}>
       <CardBody>
         <Image
-          src={`${import.meta.env.VITE_SERVER_URL}${attributes?.thumbnail?.data?.attributes?.url}`}
+          src={`${import.meta.env.VITE_SERVER_URL}${`attributes?.thumbnail?.data?.attributes?.url`}`}
           alt='Green double couch with wooden legs'
           borderRadius="full"
           boxSize={"200px"}

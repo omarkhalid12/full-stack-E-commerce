@@ -2,6 +2,7 @@ import { Grid } from "@chakra-ui/react"
 import ProductCard from "../components/ProductCard"
 import axios from "axios"
 import { useQuery } from "react-query"
+import ProductSkeleton from "../components/ProductCardSkeleton"
 
 const ProductsPage = () => {
   const getProductList = async () => {
@@ -11,9 +12,15 @@ const ProductsPage = () => {
     return data;
   }
 
-  const {data, isLoading, error} = useQuery('products', () => getProductList())
+  const {data, isLoading, error} = useQuery('products', () => getProductList)
   console.log(error);
-  if(isLoading) return <h2>Loading ....</h2>
+  if(isLoading) return(
+    <Grid margin={30} templateColumns={"repeat(auto-fill, minmax(300px, 1fr))"} gap={6}>
+      {Array.from({length: 20 }, (_, index) => (
+        <ProductSkeleton key={index} />
+      ))}
+    </Grid>
+  ) 
   return (
     <Grid margin={30} templateColumns={"repeat(auto-fill, minmax(300px, 1fr))"} gap={6}>
       {
