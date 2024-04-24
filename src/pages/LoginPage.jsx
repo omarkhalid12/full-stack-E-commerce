@@ -17,16 +17,14 @@ import {
   FormHelperText,
 } from '@chakra-ui/react'
 import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectLogin, userLogin } from '../app/features/LoginSlice'
+import { Navigate } from 'react-router-dom'
 
-  const LoginPage = ({ isAuthenticated }) => {
-    if(isAuthenticated) return <Navigate to="/" replace />;
-
+export default function LoginPage ({ isAuthenticated }) {
     const dispatch = useDispatch();
-    const { data, loading, error} = useSelector(selectLogin)
+    const { loading } = useSelector(selectLogin);
     const [user, setUser] = useState({
       identifier: "" ,
       password: ""
@@ -34,6 +32,8 @@ import { selectLogin, userLogin } from '../app/features/LoginSlice'
     const [isEmail, setIsEmail] = useState(false);
     const [isPassword, setIsPassword] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+
+    if(isAuthenticated) return <Navigate to={-1} replace />
 
     // ** Handler ..
     const  onChangeHandler = e => {
@@ -66,7 +66,7 @@ import { selectLogin, userLogin } from '../app/features/LoginSlice'
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      bg={useColorModeValue ? ('gray.50', 'gray.800') : ''}>
 
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
@@ -75,7 +75,7 @@ import { selectLogin, userLogin } from '../app/features/LoginSlice'
         <Box
           as={"form"}
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
+          bg={useColorModeValue ? ('white', 'gray.700') : ''}
           boxShadow={'lg'}
           p={8}
           onSubmit={submitHandler}
@@ -151,4 +151,3 @@ import { selectLogin, userLogin } from '../app/features/LoginSlice'
     </Flex>
   )
 }
-export default LoginPage
