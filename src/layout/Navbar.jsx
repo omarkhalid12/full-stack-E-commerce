@@ -21,26 +21,26 @@ import { Link } from 'react-router-dom'
 
 const Links = ['Dashboard', 'Products', 'Team']
 
-
 const NavLink = ({ children }) => {
   return (
-
-    <Link
-      to={children.toLowerCase()}
-      px={2}
-      py={1}
-      rounded={'md'}
-      _hover={{
-        textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
-      }}
-    >
-      {children}
-    </Link>
+      <>
+        <Link
+          to={children.toLowerCase}
+          px={2}
+          py={1}
+          rounded={'md'}
+          _hover={{
+            textDecoration: 'none',
+            bg: useColorModeValue('gray.200', 'gray.700'),
+          }}
+        >
+          {children}
+        </Link>
+      </>
   )
 }
 
-const NavBar = () => {
+const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode()
 
   return (
@@ -102,4 +102,4 @@ const NavBar = () => {
     </>
   )
 }
-export default NavBar;
+export default Navbar;

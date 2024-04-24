@@ -17,12 +17,15 @@ import {
   FormHelperText,
 } from '@chakra-ui/react'
 import { useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectLogin, userLogin } from '../app/features/LoginSlice'
 
-  const LoginPage = () => {
-    const dispatch = useDispatch()
+  const LoginPage = ({ isAuthenticated }) => {
+    if(isAuthenticated) return <Navigate to="/" replace />;
+
+    const dispatch = useDispatch();
     const { data, loading, error} = useSelector(selectLogin)
     const [user, setUser] = useState({
       identifier: "" ,
