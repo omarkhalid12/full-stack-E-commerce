@@ -21,7 +21,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 
   const LoginPage = () => {
 
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState({
       email: "" ,
       password: ""
@@ -35,18 +35,25 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
       const {name, value} = e.target
       setUser({...user, [name]: value})
     }
-    const submitHandler = (e) => {
-      e.preventDefault()
+    
+    const submitHandler = e => {
+      e.preventDefault();
+
+      if(!user.email && !user.password) {
+        setIsEmail(true);
+        setIsPassword(true);
+        return ;
+      }
       if(!user.email) {
         setIsEmail(true)
-        if(!user.password) {
-          setIsPassword(true)
-        }
-        return ;
+      }
+      if(!user.password) {
+        setIsPassword(true)
       }
       setIsEmail(false)
       setIsPassword(false)
     }
+
   return (
     <Flex
       minH={'100vh'}

@@ -5,6 +5,8 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import App from './App.jsx'
 import './index.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { Provider } from 'react-redux'
+import { store } from './app/store.js'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,11 +17,13 @@ const queryClient = new QueryClient({
 })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <QueryClientProvider client={queryClient}>
-    <Router>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
-    </Router>
-  </QueryClientProvider>
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <ChakraProvider>
+          <App />
+        </ChakraProvider>
+      </Router>
+    </QueryClientProvider>
+  </Provider>
 )
