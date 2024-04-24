@@ -18,12 +18,14 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectLogin, userLogin } from '../app/features/LoginSlice'
 
   const LoginPage = () => {
-
-    // const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch()
+    const { data, loading, error} = useSelector(selectLogin)
     const [user, setUser] = useState({
-      email: "" ,
+      identifier: "" ,
       password: ""
     });
     const [isEmail, setIsEmail] = useState(false);
@@ -35,16 +37,16 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
       const {name, value} = e.target
       setUser({...user, [name]: value})
     }
-    
+
     const submitHandler = e => {
       e.preventDefault();
 
-      if(!user.email && !user.password) {
+      if(!user.identifier && !user.password) {
         setIsEmail(true);
         setIsPassword(true);
         return ;
       }
-      if(!user.email) {
+      if(!user.identifier) {
         setIsEmail(true)
       }
       if(!user.password) {
@@ -52,6 +54,8 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
       }
       setIsEmail(false)
       setIsPassword(false)
+      dispatch(userLogin(user))
+      console.log(user)
     }
 
   return (
@@ -79,8 +83,8 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
               <FormLabel>Email address</FormLabel>
               <Input type="email" 
                 isInvalid={isEmail} errorBorderColor='crimson' 
-                value={user.email}
-                name={"email"}
+                value={user.identifier}
+                name={"identifier"}
                 onChange={onChangeHandler}
               />
               {
@@ -129,10 +133,12 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
               <Button
                 bg={isEmail || isPassword ? "red.500" : 'blue.400' }
                 color={'white'}
-                type="submit"
                 _hover={{
                   bg: isEmail || isPassword ? "red.600" : 'blue.600' ,
-                }}>
+                }}
+                type="submit"
+                isLoading= {loading}
+                >
                 Sign in
               </Button>
             </Stack>

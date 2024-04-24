@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import axiosInstance from '../../api/axios.config'
+import { axiosInstance } from '../../api/axios.config'
 
 const initialState = {
   loading: false, // ** Pending
@@ -7,11 +7,11 @@ const initialState = {
   error: null // ** Error => rejected
 }
 
-export const userLogin = createAsyncThunk("login/userLogin", async (_, thunkAPI) => {
+export const userLogin = createAsyncThunk("login/userLogin", async (user, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
 
   try {
-    const { data } = await axiosInstance.get(`/api/auth/local`)
+    const { data } = await axiosInstance.post(`/api/auth/local`, user)
     return data;
   } catch (error) {
     return rejectWithValue(error)
