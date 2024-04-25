@@ -20,8 +20,10 @@ import {
 import { BsMoon, BsSun } from 'react-icons/bs'
 import { Link as RouterLink } from 'react-router-dom'
 import CookieService from '../services/CookieService'
+import { useSelector } from 'react-redux'
+import { selectCart } from "../app/features/cartSlice";
 
-const Links = ['Dashboard', 'Products', 'Team'];
+const Links = ['Dashboard', 'Products'];
 const NavLink = ({ children }) => {
       <Link
         as={RouterLink}
@@ -40,12 +42,14 @@ const NavLink = ({ children }) => {
 
 
 export default function Navbar() {
+  const { cartProducts } = useSelector(selectCart)
   const { colorMode, toggleColorMode } = useColorMode();
   const token = CookieService.get("jwt")
+
   const logoutHandler = () => {
     CookieService.remove("jwt");
     window.location.reload();
-  }
+  };
 
   return (
     <>
@@ -66,7 +70,7 @@ export default function Navbar() {
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <BsMoon /> : <BsSun />}
               </Button>
-              <Button onClick={()=> {}}>cart (0)</Button>
+              <Button onClick={()=> {}}>cart ({cartProducts.length})</Button>
               {
                 token ? (
                   <Menu>

@@ -3,17 +3,20 @@ import axios from "axios"
 import { useQuery } from "react-query"
 import { useNavigate, useParams } from "react-router-dom"
 import ProductSkeleton from "../components/ProductCardSkeleton"
-import { useEffect } from "react"
 import { BsArrowLeft } from "react-icons/bs"
+import { useDispatch } from "react-redux"
+import addToCart from "./features/cartSlice";
 
 const ProductPage = () => {
+  const dispatch = useDispatch()
   const { id } = useParams();
   const navigate = useNavigate();
   const { colorMode } = useColorMode();
 
   const getProductList = async () => {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_SERVER_URL}/api/products/${id}?populate=thumbnail,category`
+      `${import.meta.env.VITE_SERVER_URL}
+      /api/products/${id}?populate=thumbnail,category&fields=title,price,description`
     );
     return data;
   }
@@ -21,11 +24,14 @@ const ProductPage = () => {
   const {data, isLoading} = useQuery(["products", id], getProductList);
   const goBack = () => navigate(-1);
 
-  useEffect(() => {
-    document.title = `Products ${data?.data?.attributes?.title} Page`
-  }, []);
+  const addToCartHandler = () => dispatch(addToCart(data.data))
+  
 
-  if(isLoading) return(
+  // useEffect(() => {
+  //   document.title = `Products ${data?.data?.attributes?.title} Page`
+  // }, []);
+
+  if(isLoading) return (
     <Box my={20} mx={"auto"} maxW={"sm"}>
       <ProductSkeleton />
     </Box>
@@ -73,7 +79,7 @@ const ProductPage = () => {
           <Button 
             variant="solid"
             colorScheme="purple"
-            onClick={() => {}}
+            onClick={addToCartHandler}
             w={"full"}
             size={"lg"}
             p={8}

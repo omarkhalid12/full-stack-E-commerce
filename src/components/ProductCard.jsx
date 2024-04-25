@@ -31,7 +31,7 @@ const ProductCard = ({ attributes }) => {
           </Text>
           <Button
           as={Link}
-          to={`/products/1`}
+          to={`/products`}
           bg={colorMode === "light" ? "#e6f3fd" : "#9f7aea"}
           color={colorMode !== "light" ? "#e6f3fd" : "#9f7aea"}
           size={"xl"}
