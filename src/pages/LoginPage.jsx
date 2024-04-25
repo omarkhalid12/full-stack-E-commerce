@@ -19,10 +19,16 @@ import {
 import { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectLogin, userLogin } from '../app/features/LoginSlice'
+import { selectLogin, userLogin } from '../app/features/loginSlice'
 import { Navigate } from 'react-router-dom'
+import PropTypes from 'prop-types';
 
 export default function LoginPage ({ isAuthenticated }) {
+
+  LoginPage.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+  };
+
     const dispatch = useDispatch();
     const { loading } = useSelector(selectLogin);
     const [user, setUser] = useState({
@@ -58,7 +64,6 @@ export default function LoginPage ({ isAuthenticated }) {
       setIsEmail(false)
       setIsPassword(false)
       dispatch(userLogin(user))
-      console.log(user)
     }
 
   return (

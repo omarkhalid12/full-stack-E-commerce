@@ -1,7 +1,11 @@
 import { Button, Card, CardBody, Heading, Image, Stack, Text, useColorMode } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
+import PropTypes from 'prop-types';
 
 const ProductCard = ({ attributes }) => {
+  ProductCard.propTypes = {
+    attributes: PropTypes.bool.isRequired,
+  };
   const { colorMode } = useColorMode();
 
   return (

@@ -21,9 +21,8 @@ import { BsMoon, BsSun } from 'react-icons/bs'
 import { Link as RouterLink } from 'react-router-dom'
 import CookieService from '../services/CookieService'
 
-const Links = ['Dashboard', 'Products', 'Team']
-
-const NavLink = ({ children }) => (
+const Links = ['Dashboard', 'Products', 'Team'];
+const NavLink = ({ children }) => {
       <Link
         as={RouterLink}
         to={children.toLowerCase}
@@ -37,7 +36,8 @@ const NavLink = ({ children }) => (
         >
         {children}
       </Link>
-);
+}
+
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -65,8 +65,8 @@ export default function Navbar() {
             <Stack direction={'row'} spacing={7}>
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <BsMoon /> : <BsSun />}
-                <Button onClick={()=> {}}>cart (0)</Button>
               </Button>
+              <Button onClick={()=> {}}>cart (0)</Button>
               {
                 token ? (
                   <Menu>
