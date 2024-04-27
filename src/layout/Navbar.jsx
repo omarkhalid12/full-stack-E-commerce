@@ -20,8 +20,9 @@ import {
 import { BsMoon, BsSun } from 'react-icons/bs'
 import { Link as RouterLink } from 'react-router-dom'
 import CookieService from '../services/CookieService'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectCart } from "../app/features/cartSlice";
+import { onOpenCartDrawerAction } from '../app/features/globalSlice'
 
 const Links = ['Products'];
 const NavLink = ({ children }) => {
@@ -40,16 +41,21 @@ const NavLink = ({ children }) => {
       </Link>
 }
 
-
 export default function Navbar() {
-  const { cartProducts } = useSelector(selectCart)
+
+  const dispatch = useDispatch();
+  const { cartProducts } = useSelector(selectCart);
   const { colorMode, toggleColorMode } = useColorMode();
-  const token = CookieService.get("jwt")
+  const token = CookieService.get("jwt");
+  
+  // ** Handler ..
 
   const logoutHandler = () => {
     CookieService.remove("jwt");
     window.location.reload();
   };
+  
+  const onOpen = () => dispatch(onOpenCartDrawerAction())
 
   return (
     <>
@@ -57,10 +63,10 @@ export default function Navbar() {
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
 
           <HStack spacing={8} alignItems={'center'}>
-          <RouterLink to='/'>My App</RouterLink>
-            <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+            <RouterLink to='/'>My App</RouterLink>
+            <HStack as={"nav"} spacing={4} display={{ base: 'none', md: 'flex' }}>
+              {Links.map(link => (
+                <Link key={link}>{link}</Link>
               ))}
             </HStack>
           </HStack>
@@ -70,7 +76,7 @@ export default function Navbar() {
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <BsMoon /> : <BsSun />}
               </Button>
-              <Button onClick={()=> {}}>cart ({cartProducts.length})</Button>
+              <Button onClick= {onOpen}>Cart ({cartProducts.length})</Button>
               {
                 token ? (
                   <Menu>
