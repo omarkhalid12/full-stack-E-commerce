@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { addItemToShoppingCart } from "../../utils";
 
 const initialState = {
   cartProducts: [],
@@ -9,7 +10,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      state.cartProducts = [...state.cartProducts, action.payload]
+      state.cartProducts = addItemToShoppingCart(action.payload, state.cartProducts)
     },
   }
 })
