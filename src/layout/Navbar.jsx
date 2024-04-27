@@ -23,7 +23,7 @@ import CookieService from '../services/CookieService'
 import { useSelector } from 'react-redux'
 import { selectCart } from "../app/features/cartSlice";
 
-const Links = ['Dashboard', 'Products'];
+const Links = ['Products'];
 const NavLink = ({ children }) => {
       <Link
         as={RouterLink}

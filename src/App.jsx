@@ -17,6 +17,13 @@ const App = () => {
           <Route path='/products/:id' element={<ProductsPage />} />
           <Route path='/about' element={<AboutPage />} />
         </Route>
+        
+        <Route path='/' element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path='/products' element={<ProductsPage />} />
+          <Route path='/products/:id' element={<ProductsPage />} />
+          <Route path='/about' element={<AboutPage />} />
+        </Route>
 
         <Route path='/login' element={<LoginPage isAuthenticated={token} />} />
       </Routes>
