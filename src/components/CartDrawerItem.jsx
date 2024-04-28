@@ -1,6 +1,8 @@
 import { Button, Divider, Flex, Image, Stack, Text } from "@chakra-ui/react"
 import { useDispatch } from "react-redux"
 import PropTypes from 'prop-types';
+import { BsTrash } from "react-icons/bs";
+import { removeFromCart } from "../app/features/cartSlice";
 
 
 const CartDrawerItem = ({id, attributes: { thumbnail, title, price }, quantity}) => {
@@ -25,7 +27,10 @@ const CartDrawerItem = ({id, attributes: { thumbnail, title, price }, quantity})
           </Flex>
           
           <Text fontSize={"sm"}>Quantity: {quantity}</Text>
-          <Button variant="solid" colorScheme="red" size="xs" w="fit-content">
+          <Button leftIcon={<BsTrash />} variant="outline" 
+            colorScheme="red" size="md" w="full" 
+            onClick={() => dispatch(removeFromCart(id))}
+          >
             Remove
           </Button>
         </Stack>
