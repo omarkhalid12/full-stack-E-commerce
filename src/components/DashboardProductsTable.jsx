@@ -10,10 +10,14 @@ import {
   TableContainer,
 } from '@chakra-ui/react';
 import TableSkeleton from './TableSkeleton';
+import { useGetDashboardProductsQuery } from '../app/services/apiSlice';
 
 const DashboardProductsTable = () => {
+
+  const {isLoading, isError, data} = useGetDashboardProductsQuery({ page: 1});
+  console.log({isLoading, isError, data})
   return <TableSkeleton />
-  
+
   return (
     <TableContainer>
       <Table variant='simple'>
