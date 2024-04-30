@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import TableSkeleton from './TableSkeleton';
-import { useGetDashboardProductsQuery } from '../app/services/products';
+import { useDeleteDashboardProductsMutation, useGetDashboardProductsQuery } from '../app/services/products';
 import { AiOutlineEye } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { BsTrash } from 'react-icons/bs';
@@ -22,8 +22,8 @@ import CustomAlertDialog from '../shared/AlertDialog';
 
 const DashboardProductsTable = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-
   const {isLoading, isError, data} = useGetDashboardProductsQuery({ page: 1});
+  const [destroyProduct, {isLoading: isDestroying, isSuccess}] = useDeleteDashboardProductsMutation()
   console.log(isError)
   if(isLoading) return <TableSkeleton />
 
@@ -100,6 +100,7 @@ const DashboardProductsTable = () => {
       <CustomAlertDialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} 
       title={"Delete Product?"} 
       okTxt={"Destroy"}
+      onOkHandler={() => destroyProduct(1)}
       description={"Are you really want to destroy this product? This product cannot be undone."} />
     </>
   )

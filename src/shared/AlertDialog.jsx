@@ -10,7 +10,8 @@ const CustomAlertDialog = ({
   description, 
   cancelTxt= "Cancel", 
   okTxt= "Ok",
-  variant= "solid"
+  variant= "solid",
+  onOkHandler
 }) => {
   const cancelRef = useRef()
 
@@ -34,7 +35,7 @@ const CustomAlertDialog = ({
             <Button ref={cancelRef} onClick={onClose}>
               {cancelTxt}
             </Button>
-            <Button colorScheme='red' variant={variant} ml={3}>
+            <Button colorScheme='red' variant={variant} ml={3} onClick={onOkHandler}>
               {okTxt}
             </Button>
           </AlertDialogFooter>
@@ -52,5 +53,6 @@ CustomAlertDialog.propTypes = {
   cancelTxt: PropTypes.bool.isRequired,
   okTxt: PropTypes.bool.isRequired,
   variant: PropTypes.bool.isRequired,
+  onOkHandler: PropTypes.bool.isRequired,
 };
 export default CustomAlertDialog;
