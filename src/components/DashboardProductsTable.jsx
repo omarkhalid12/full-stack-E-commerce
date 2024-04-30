@@ -96,7 +96,10 @@ const DashboardProductsTable = () => {
         </Tfoot>
       </Table>
       </TableContainer>
-      <CustomAlertDialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+      <CustomAlertDialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} 
+      title={"Delete Product?"} 
+      okTxt={"Destroy"}
+      description={"Are you really want to destroy this product? This product cannot be undone."} />
     </>
   )
 }

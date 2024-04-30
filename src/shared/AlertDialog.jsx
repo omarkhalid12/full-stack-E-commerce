@@ -3,12 +3,19 @@ import { useRef } from "react"
 import PropTypes from 'prop-types';
 
 // eslint-disable-next-line react-refresh/only-export-components
-const CustomAlertDialog = ({isOpen, onOpen, onClose}) => {
+const CustomAlertDialog = ({
+  isOpen, 
+  onClose, 
+  title, 
+  description, 
+  cancelTxt= "Cancel", 
+  okTxt= "Ok",
+  variant= "solid"
+}) => {
   const cancelRef = useRef()
 
   return (
     <>
-      <Button onClick={onOpen}>Discard</Button>
       <AlertDialog
         motionPreset='slideInBottom'
         leastDestructiveRef={cancelRef}
@@ -19,17 +26,16 @@ const CustomAlertDialog = ({isOpen, onOpen, onClose}) => {
         <AlertDialogOverlay />
 
         <AlertDialogContent>
-          <AlertDialogHeader>Delete Product?</AlertDialogHeader>
+          <AlertDialogHeader>{title}</AlertDialogHeader>
           <AlertDialogBody>
-            Are you sure you want to delete this product? the product will be
-            deleted.
+            {description}
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onClose}>
-              No
+              {cancelTxt}
             </Button>
-            <Button colorScheme='red' ml={3}>
-              Yes
+            <Button colorScheme='red' variant={variant} ml={3}>
+              {okTxt}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -40,7 +46,11 @@ const CustomAlertDialog = ({isOpen, onOpen, onClose}) => {
 
 CustomAlertDialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  onOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.bool.isRequired,
+  title: PropTypes.bool.isRequired,
+  description: PropTypes.bool.isRequired,
+  cancelTxt: PropTypes.bool.isRequired,
+  okTxt: PropTypes.bool.isRequired,
+  variant: PropTypes.bool.isRequired,
 };
 export default CustomAlertDialog;
