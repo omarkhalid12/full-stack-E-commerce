@@ -10,6 +10,7 @@ import {
   TableContainer,
   Image,
   Button,
+  useDisclosure,
 } from '@chakra-ui/react';
 import TableSkeleton from './TableSkeleton';
 import { useGetDashboardProductsQuery } from '../app/services/apiSlice';
@@ -17,15 +18,17 @@ import { AiOutlineEye } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { BsTrash } from 'react-icons/bs';
 import { FiEdit2 } from 'react-icons/fi';
+import CustomAlertDialog from '../shared/AlertDialog';
 
 const DashboardProductsTable = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const {isLoading, isError, data} = useGetDashboardProductsQuery({ page: 1});
-  console.log({isLoading, isError, data})
   if(isLoading) return <TableSkeleton />
 
   return (
-    <TableContainer maxW={"85%"} mx={"auto"}>
+    <>
+      <TableContainer maxW={"85%"} mx={"auto"}>
       <Table variant='simple'>
         <TableCaption>Imperial to metric conversion factors</TableCaption>
         <Thead>
@@ -51,8 +54,8 @@ const DashboardProductsTable = () => {
                     borderRadius='full'
                     objectFit={"cover"}
                     boxSize="40px"
-                    src={`${import.meta.env.VITE_SERVER_URL}
-                    ${product?.attributes?.thumbnail?.data?.attributes?.formats?.thumbnail?.url}`}
+                    src={`${import.meta.env.VITE_SERVER_URL}${
+                      product?.attributes?.thumbnail?.data?.attributes?.formats?.thumbnail?.url}`}
                     alt={product?.attributes?.title}
                   />
                 </Td>
@@ -69,7 +72,7 @@ const DashboardProductsTable = () => {
                   >
                     <AiOutlineEye size={17} />
                   </Button>
-                  <Button colorScheme='red' variant='solid' mr={3} onClick={() => {}}>
+                  <Button colorScheme='red' variant='solid' mr={3} onClick={onOpen}>
                     <BsTrash size={17} />
                   </Button>
                   <Button colorScheme='blue' variant='solid' onClick={() => {}}>
@@ -92,7 +95,9 @@ const DashboardProductsTable = () => {
           </Tr>
         </Tfoot>
       </Table>
-    </TableContainer>
+      </TableContainer>
+      <CustomAlertDialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+    </>
   )
 }
 

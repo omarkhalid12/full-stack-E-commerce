@@ -2,9 +2,10 @@ import { Button, Card, CardBody, Heading, Image, Stack, Text, useColorMode } fro
 import { Link } from "react-router-dom"
 import PropTypes from 'prop-types';
 
-const ProductCard = ({ attributes }) => {
+const ProductCard = ({ attributes, id }) => {
   ProductCard.propTypes = {
     attributes: PropTypes.bool.isRequired,
+    id: PropTypes.bool.isRequired,
   };
   const { colorMode } = useColorMode();
 
@@ -12,7 +13,7 @@ const ProductCard = ({ attributes }) => {
     <Card border={"1px solid #a8b5c8"} bg={"none"}>
       <CardBody>
         <Image
-          src={`${import.meta.env.VITE_SERVER_URL}${`attributes?.thumbnail?.data?.attributes?.url`}`}
+          src={`${import.meta.env.VITE_SERVER_URL}${attributes?.thumbnail?.data?.attributes?.url}`}
           alt='Green double couch with wooden legs'
           borderRadius="full"
           boxSize={"200px"}
@@ -31,7 +32,7 @@ const ProductCard = ({ attributes }) => {
           </Text>
           <Button
           as={Link}
-          to={`/products`}
+          to={`/products/${id}`}
           bg={colorMode === "light" ? "#e6f3fd" : "#9f7aea"}
           color={colorMode !== "light" ? "#e6f3fd" : "#9f7aea"}
           size={"xl"}

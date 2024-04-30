@@ -10,7 +10,6 @@ const ProductsPage = () => {
       `${import.meta.env.VITE_SERVER_URL}/api/products?populate=thumbnail,category`
     );
     console.log(data)
-
     return data;
   }
 
