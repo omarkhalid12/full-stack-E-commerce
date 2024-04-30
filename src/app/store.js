@@ -1,10 +1,10 @@
+import storage from "redux-persist/lib/storage";
 import { configureStore } from "@reduxjs/toolkit";
+import {persistReducer, persistStore} from "redux-persist";
 import LoginSlice from "./features/loginSlice";
 import cartSlice from "./features/cartSlice";
 import globalSlice from "./features/globalSlice";
-import storage from "redux-persist/lib/storage";
-import {persistReducer, persistStore} from "redux-persist";
-import { apiSlice } from "./services/apiSlice";
+import { productsApiSlice } from "./services/products";
 
 const persistCartConfig = {
   key: "cart",
@@ -17,12 +17,12 @@ export const store = configureStore({
     cart: persistedCart,
     login: LoginSlice,
     global: globalSlice,
-    [apiSlice.reducerPath]: apiSlice.reducer
+    [productsApiSlice.reducerPath]: productsApiSlice.reducer
   },
   middleware: getDefaultMiddleware => 
   getDefaultMiddleware({
     serializableCheck: false,
-  }).concat([apiSlice.middleware])
+  }).concat([productsApiSlice.middleware])
 })
 
 export const persister = persistStore(store)

@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import TableSkeleton from './TableSkeleton';
-import { useGetDashboardProductsQuery } from '../app/services/apiSlice';
+import { useGetDashboardProductsQuery } from '../app/services/products';
 import { AiOutlineEye } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { BsTrash } from 'react-icons/bs';
@@ -24,6 +24,7 @@ const DashboardProductsTable = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const {isLoading, isError, data} = useGetDashboardProductsQuery({ page: 1});
+  console.log(isError)
   if(isLoading) return <TableSkeleton />
 
   return (
