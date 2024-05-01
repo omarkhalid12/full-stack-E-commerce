@@ -15,7 +15,14 @@ export const productsApiSlice = createApi({
           url: `/api/products?populate=category,thumbnail&pagination[page]=${page}&pagination[pageSize]=7`,
         };
       },
-    }),
+      providesTags: result =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: "Products", id })),
+            { type: 'Products', id: 'LIST' }
+            ]
+          : [{ type: 'Products', id: 'LIST' }],
+      }),
     deleteDashboardProducts: build.mutation({
       query(id) {
         return {
@@ -25,7 +32,8 @@ export const productsApiSlice = createApi({
             authorization: `Bearer ${CookieService.get("jwt")}`
           }
         };
-      }
+      },
+      invalidatesTags: [{ type: "Products", id: "LIST" }]
     })
   }),
 });
