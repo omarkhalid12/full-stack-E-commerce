@@ -11,6 +11,14 @@ import {
   Image,
   Button,
   useDisclosure,
+  FormControl,
+  FormLabel,
+  Input,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react';
 import TableSkeleton from './TableSkeleton';
 import { useDeleteDashboardProductsMutation, useGetDashboardProductsQuery } from '../app/services/products';
@@ -20,10 +28,12 @@ import { BsTrash } from 'react-icons/bs';
 import { FiEdit2 } from 'react-icons/fi';
 import CustomAlertDialog from '../shared/AlertDialog';
 import { useEffect, useState } from 'react';
+import CustomModal from '../shared/Modal';
 
 const DashboardProductsTable = () => {
   const [clickedProductId, setClickedProductId] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
   const {isLoading, isError, data} = useGetDashboardProductsQuery({ page: 1});
   const [destroyProduct, {isLoading: isDestroying, isSuccess}] = useDeleteDashboardProductsMutation();
   console.log(isError)
@@ -91,7 +101,7 @@ const DashboardProductsTable = () => {
                   >
                     <BsTrash size={17} />
                   </Button>
-                  <Button colorScheme='blue' variant='solid' onClick={() => {}}>
+                  <Button colorScheme='blue' variant='solid' onClick={() => {onModalOpen()}}>
                     <FiEdit2 size={17} />
                   </Button>
                 </Td>
@@ -113,11 +123,32 @@ const DashboardProductsTable = () => {
       </Table>
       </TableContainer>
       <CustomAlertDialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} 
-      isLoading={isDestroying}
-      title={"Delete Product?"} 
-      okTxt={"Destroy"}
-      onOkHandler={() => destroyProduct(clickedProductId)}
-      description={"Are you really want to destroy this product? This product cannot be undone."} />
+        isLoading={isDestroying}
+        title={"Delete Product?"} 
+        okTxt={"Destroy"}
+        onOkHandler={() => destroyProduct(clickedProductId)}
+        description={"Are you really want to destroy this product? This product cannot be undone."}
+      />
+      <CustomModal 
+        isOpen={isModalOpen} 
+        onClose={onModalClose}
+        title={"Update Product !"}
+      >
+        <FormControl>
+          <FormLabel>Title :</FormLabel>
+          <Input placeholder='Product Title' />
+        </FormControl>
+        <FormControl my={3}>
+          <FormLabel>Price :</FormLabel>
+          <NumberInput defaultValue={15} precision={2} step={0.2}>
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
+      </CustomModal>
     </>
   )
 }
