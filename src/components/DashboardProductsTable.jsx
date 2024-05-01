@@ -19,19 +19,29 @@ import { Link } from 'react-router-dom';
 import { BsTrash } from 'react-icons/bs';
 import { FiEdit2 } from 'react-icons/fi';
 import CustomAlertDialog from '../shared/AlertDialog';
+import { useEffect, useState } from 'react';
 
 const DashboardProductsTable = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [clickedProductId, setClickedProductId] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {isLoading, isError, data} = useGetDashboardProductsQuery({ page: 1});
-  const [destroyProduct, {isLoading: isDestroying, isSuccess}] = useDeleteDashboardProductsMutation()
+  const [destroyProduct, {isLoading: isDestroying, isSuccess}] = useDeleteDashboardProductsMutation();
   console.log(isError)
+  
+  useEffect(() => {
+    if(isSuccess) {
+      setClickedProductId(null)
+      onClose()
+    } 
+  }, [isSuccess, onClose])
+  
   if(isLoading) return <TableSkeleton />
 
   return (
     <>
       <TableContainer maxW={"85%"} mx={"auto"}>
       <Table variant='simple'>
-        <TableCaption>Imperial to metric conversion factors</TableCaption>
+        <TableCaption>Total Entries: {data?.data?.length ?? 0}</TableCaption>
         <Thead>
           <Tr>
             <Th>ID</Th>
@@ -73,7 +83,12 @@ const DashboardProductsTable = () => {
                   >
                     <AiOutlineEye size={17} />
                   </Button>
-                  <Button colorScheme='red' variant='solid' mr={3} onClick={onOpen}>
+                  <Button colorScheme='red' variant='solid' mr={3} 
+                  onClick={() => {
+                    setClickedProductId(product.id)
+                    onOpen()
+                  }}
+                  >
                     <BsTrash size={17} />
                   </Button>
                   <Button colorScheme='blue' variant='solid' onClick={() => {}}>
@@ -98,10 +113,10 @@ const DashboardProductsTable = () => {
       </Table>
       </TableContainer>
       <CustomAlertDialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} 
-      isLoading={isDestroying(4)}
+      isLoading={isDestroying}
       title={"Delete Product?"} 
       okTxt={"Destroy"}
-      onOkHandler={() => destroyProduct(1)}
+      onOkHandler={() => destroyProduct(clickedProductId)}
       description={"Are you really want to destroy this product? This product cannot be undone."} />
     </>
   )
