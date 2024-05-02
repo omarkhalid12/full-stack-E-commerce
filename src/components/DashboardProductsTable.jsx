@@ -71,6 +71,14 @@ const DashboardProductsTable = () => {
   const onSubmitHandler = () => {
     console.log(productToEdit)
     console.log(thumbnail)
+    const formData = new FormData()
+    formData.append("data", JSON.stringify({
+      title: productToEdit.title,
+      description: productToEdit.description,
+      price: productToEdit.price,
+      stock: productToEdit.stock,
+    }));
+    formData.append("files.thumbnail", thumbnail)
   }
   
   useEffect(() => {
@@ -177,15 +185,15 @@ const DashboardProductsTable = () => {
       >
           <FormControl>
             <FormLabel>Title :</FormLabel>
-            <Input placeholder='Product Title' name='title' value={productToEdit?.title} onChange={onChangeHandler} />
+            <Input my={3} placeholder='Product Title' name='title' value={productToEdit?.title} onChange={onChangeHandler} />
           </FormControl>
 
-          <FormControl my={3}>
+          <FormControl mb={3}>
             <FormLabel>Description :</FormLabel>
-            <Textarea h="10" placeholder='Product Desc' name='description' value={productToEdit?.description} onChange={onChangeHandler} />
+            <Textarea h="10" placeholder='Product Description' name='description' value={productToEdit?.description} onChange={onChangeHandler} />
           </FormControl>
 
-          <FormControl my={3}>
+          <FormControl mb={3}>
             <FormLabel>Price :</FormLabel>
             <NumberInput name='price' defaultValue={productToEdit?.price} onChange={onChangePriceHandler} precision={2} step={0.2}>
               <NumberInputField />
@@ -196,7 +204,7 @@ const DashboardProductsTable = () => {
             </NumberInput>
           </FormControl>
 
-          <FormControl my={3}>
+          <FormControl mb={3}>
             <FormLabel>Count in Stock :</FormLabel>
             <NumberInput defaultValue={productToEdit?.stock} name='stock' precision={2} step={0.2} onChange={onChangeStockHandler}>
               <NumberInputField />
