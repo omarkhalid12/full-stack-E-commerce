@@ -34,6 +34,7 @@ import CustomModal from '../shared/Modal';
 const DashboardProductsTable = () => {
   const [clickedProductId, setClickedProductId] = useState(null);
   const [productToEdit, setProductToEdit] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
   const {isLoading, isError, data} = useGetDashboardProductsQuery({ page: 1});
@@ -61,6 +62,15 @@ const DashboardProductsTable = () => {
       ...productToEdit,
       price: +value
     })
+  }
+  
+  const onChangeThumbnailHandler = e => {
+    setThumbnail(e.target.files[0])
+  }
+  
+  const onSubmitHandler = () => {
+    console.log(productToEdit)
+    console.log(thumbnail)
   }
   
   useEffect(() => {
@@ -150,7 +160,7 @@ const DashboardProductsTable = () => {
         </Tfoot>
       </Table>
       </TableContainer>
-      console.log(productToEdit)
+      {console.log(productToEdit)}
       <CustomAlertDialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} 
         isLoading={isDestroying}
         title={"Delete Product?"} 
@@ -163,47 +173,49 @@ const DashboardProductsTable = () => {
         onClose={onModalClose}
         title={"Update Product !"}
         okTxt='Update'
+        onOkClick={onSubmitHandler}
       >
-        <FormControl>
-          <FormLabel>Title :</FormLabel>
-          <Input placeholder='Product Title' name='title' value={productToEdit?.title} onChange={onChangeHandler} />
-        </FormControl>
+          <FormControl>
+            <FormLabel>Title :</FormLabel>
+            <Input placeholder='Product Title' name='title' value={productToEdit?.title} onChange={onChangeHandler} />
+          </FormControl>
 
-        <FormControl my={3}>
-          <FormLabel>Description :</FormLabel>
-          <Textarea h="10" placeholder='Product Desc' name='description' value={productToEdit?.description} onChange={onChangeHandler} />
-        </FormControl>
+          <FormControl my={3}>
+            <FormLabel>Description :</FormLabel>
+            <Textarea h="10" placeholder='Product Desc' name='description' value={productToEdit?.description} onChange={onChangeHandler} />
+          </FormControl>
 
-        <FormControl my={3}>
-          <FormLabel>Price :</FormLabel>
-          <NumberInput name='price' defaultValue={productToEdit?.price} onChange={onChangePriceHandler} precision={2} step={0.2}>
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-        </FormControl>
+          <FormControl my={3}>
+            <FormLabel>Price :</FormLabel>
+            <NumberInput name='price' defaultValue={productToEdit?.price} onChange={onChangePriceHandler} precision={2} step={0.2}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </FormControl>
 
-        <FormControl my={3}>
-          <FormLabel>Count in Stock :</FormLabel>
-          <NumberInput defaultValue={productToEdit?.stock} name='stock' precision={2} step={0.2} onChange={onChangeStockHandler}>
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-        </FormControl>
+          <FormControl my={3}>
+            <FormLabel>Count in Stock :</FormLabel>
+            <NumberInput defaultValue={productToEdit?.stock} name='stock' precision={2} step={0.2} onChange={onChangeStockHandler}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </FormControl>
 
-        <FormControl>
-          <FormLabel>Thumbnail :</FormLabel>
-            <Input 
-              id='thumbnail' 
-              type='file' h="full" p={2} 
-              accept='image/png, image/jpeg, image/gif'
-            />
-        </FormControl>
+          <FormControl>
+            <FormLabel>Thumbnail :</FormLabel>
+              <Input 
+                id='thumbnail' 
+                type='file' h="full" p={2} 
+                accept='image/png, image/jpeg, image/gif'
+                onChange={onChangeThumbnailHandler}
+              />
+          </FormControl>
       </CustomModal>
     </>
   )
