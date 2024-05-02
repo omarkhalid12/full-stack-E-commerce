@@ -8,6 +8,7 @@ export const productsApiSlice = createApi({
   refetchOnMountOrArgChange: true,
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_SERVER_URL }),
   endpoints: build => ({
+    // ** GET ..
     getDashboardProducts: build.query({
       query: arg => {
         const { page } = arg;
@@ -23,6 +24,33 @@ export const productsApiSlice = createApi({
             ]
           : [{ type: 'Products', id: 'LIST' }],
       }),
+
+    // ** UPDATE => PUT ..
+    updateDashboardProducts: build.mutation({
+        query: ({id, body}) => ({
+          url: `/api/products/${id}`,
+          method: "PUT",
+          headers: {
+            authorization: `Bearer ${CookieService.get("jwt")}`
+          },
+          body,
+        }),
+        async onQueryStarted({id, ...patch}, { dispatch, queryFulfilled }) {
+          const patchResult = dispatch(
+            productsApiSlice.util.updateQueryData('getPost', id, (draft) => {
+              Object.assign(draft, patch)
+            })
+          );
+          try {
+            await queryFulfilled;
+          } catch {
+            patchResult.undo()
+          }
+        },
+        invalidatesTags: [{ type: "Products", id: "LIST" }]
+      }),
+
+    // ** DELETE ..
     deleteDashboardProducts: build.mutation({
       query(id) {
         return {
@@ -34,8 +62,9 @@ export const productsApiSlice = createApi({
         };
       },
       invalidatesTags: [{ type: "Products", id: "LIST" }]
-    })
+    }),
+
   }),
 });
 
-export const { useGetDashboardProductsQuery, useDeleteDashboardProductsMutation } = productsApiSlice;
+export const { useGetDashboardProductsQuery, useDeleteDashboardProductsMutation, useUpdateDashboardProductsMutation } = productsApiSlice;
