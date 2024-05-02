@@ -1,7 +1,7 @@
 import { Modal, ModalCloseButton, ModalContent, ModalBody, ModalOverlay, ModalHeader, ModalFooter, Button } from "@chakra-ui/react"
 import PropTypes from 'prop-types';
 
-const CustomModal = ({ isOpen, onClose, title, okTxt= "Done", cancelTxt= "Cancel", children }) => {
+const CustomModal = ({ isOpen, onClose, title, okTxt= "Update", cancelTxt= "Cancel", children }) => {
   return (
     <div>
       <Modal

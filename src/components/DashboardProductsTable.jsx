@@ -19,6 +19,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Textarea,
 } from '@chakra-ui/react';
 import TableSkeleton from './TableSkeleton';
 import { useDeleteDashboardProductsMutation, useGetDashboardProductsQuery } from '../app/services/products';
@@ -32,11 +33,35 @@ import CustomModal from '../shared/Modal';
 
 const DashboardProductsTable = () => {
   const [clickedProductId, setClickedProductId] = useState(null);
+  const [productToEdit, setProductToEdit] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
   const {isLoading, isError, data} = useGetDashboardProductsQuery({ page: 1});
   const [destroyProduct, {isLoading: isDestroying, isSuccess}] = useDeleteDashboardProductsMutation();
   console.log(isError)
+
+  // ** Handler ...
+  const onChangeHandler = (e) => {
+    const {value, name} = e.target;
+    setProductToEdit({
+      ...productToEdit,
+      [name]: value
+    })
+  }
+
+  const onChangePriceHandler = value => {
+    setProductToEdit({
+      ...productToEdit,
+      stock: +value
+    })
+  }
+
+  const onChangeStockHandler = value => {
+    setProductToEdit({
+      ...productToEdit,
+      price: +value
+    })
+  }
   
   useEffect(() => {
     if(isSuccess) {
@@ -49,7 +74,7 @@ const DashboardProductsTable = () => {
 
   return (
     <>
-      <TableContainer maxW={"85%"} mx={"auto"}>
+      <TableContainer maxW={"85%"} mx={"auto"} my={5} py={3} border={"1px solid #2D3748"} rounded='md'>
       <Table variant='simple'>
         <TableCaption>Total Entries: {data?.data?.length ?? 0}</TableCaption>
         <Thead>
@@ -101,7 +126,10 @@ const DashboardProductsTable = () => {
                   >
                     <BsTrash size={17} />
                   </Button>
-                  <Button colorScheme='blue' variant='solid' onClick={() => {onModalOpen()}}>
+                  <Button colorScheme='blue' variant='solid' onClick={() => {
+                    setProductToEdit(product.attributes)
+                    onModalOpen()
+                    }}>
                     <FiEdit2 size={17} />
                   </Button>
                 </Td>
@@ -122,6 +150,7 @@ const DashboardProductsTable = () => {
         </Tfoot>
       </Table>
       </TableContainer>
+      console.log(productToEdit)
       <CustomAlertDialog isOpen={isOpen} onOpen={onOpen} onClose={onClose} 
         isLoading={isDestroying}
         title={"Delete Product?"} 
@@ -133,20 +162,47 @@ const DashboardProductsTable = () => {
         isOpen={isModalOpen} 
         onClose={onModalClose}
         title={"Update Product !"}
+        okTxt='Update'
       >
         <FormControl>
           <FormLabel>Title :</FormLabel>
-          <Input placeholder='Product Title' />
+          <Input placeholder='Product Title' name='title' value={productToEdit?.title} onChange={onChangeHandler} />
         </FormControl>
+
+        <FormControl my={3}>
+          <FormLabel>Description :</FormLabel>
+          <Textarea h="10" placeholder='Product Desc' name='description' value={productToEdit?.description} onChange={onChangeHandler} />
+        </FormControl>
+
         <FormControl my={3}>
           <FormLabel>Price :</FormLabel>
-          <NumberInput defaultValue={15} precision={2} step={0.2}>
+          <NumberInput name='price' defaultValue={productToEdit?.price} onChange={onChangePriceHandler} precision={2} step={0.2}>
             <NumberInputField />
             <NumberInputStepper>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
+        </FormControl>
+
+        <FormControl my={3}>
+          <FormLabel>Count in Stock :</FormLabel>
+          <NumberInput defaultValue={productToEdit?.stock} name='stock' precision={2} step={0.2} onChange={onChangeStockHandler}>
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Thumbnail :</FormLabel>
+            <Input 
+              id='thumbnail' 
+              type='file' h="full" p={2} 
+              accept='image/png, image/jpeg, image/gif'
+            />
         </FormControl>
       </CustomModal>
     </>
