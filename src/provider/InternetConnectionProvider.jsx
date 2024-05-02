@@ -1,27 +1,33 @@
 import { useToast } from "@chakra-ui/react"
-import { Children, useEffect, useState } from "react"
+import { Children, useEffect, useRef, useState } from "react"
 
 const InternetConnectionProvider = () => {
-  const toast = useToast()
-  const [isOnline, setIsOnline] = useState(true)
+  const toast = useToast();
+  const toastIdRef = useRef();
+  const [isOnline, setIsOnline] = useState(true);
+
+  function close() {
+    toast.closeAll(toastIdRef.current)
+  }
 
   useEffect(() => {
     setIsOnline(navigator.onLine)
   }, []);
 
-  window.addEventListener("offline", e => {
-    console.log("offline")
-  })
-
   window.addEventListener("online", e => {
-    console.log("online")
-  })
+    setIsOnline(true)
+  });
+
+  window.addEventListener("offline", e => {
+    setIsOnline(false)
+    close()
+  });
 
   if(!isOnline) {
-    return <>{children}</>
+    return <>{ children }</>
   }
 
-  return {children}
+  return { children };
 }
 
 export default InternetConnectionProvider
