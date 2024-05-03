@@ -31,8 +31,11 @@ import { FiEdit2 } from 'react-icons/fi';
 import CustomAlertDialog from '../shared/AlertDialog';
 import { useEffect, useState } from 'react';
 import CustomModal from '../shared/Modal';
+import { useSelector } from 'react-redux';
+import { selectNetwork } from '../app/features/networkSlice';
 
 const DashboardProductsTable = () => {
+  const { isOnline } = useSelector(selectNetwork)
   const [clickedProductId, setClickedProductId] = useState(null);
   const [productToEdit, setProductToEdit] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
@@ -96,7 +99,7 @@ const DashboardProductsTable = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isUpdatingSuccess])
   
-  if(isLoading) return <TableSkeleton />
+  if(isLoading || !isOnline) return <TableSkeleton />
 
   return (
     <>

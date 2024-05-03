@@ -1,6 +1,7 @@
 import { useToast } from "@chakra-ui/react"
 import { useEffect, useRef, useState } from "react"
 import { BsWifiOff } from "react-icons/bs";
+import PropTypes from 'prop-types';
 
 const InternetConnectionProvider = ({ children }) => {
   const toast = useToast();
@@ -49,4 +50,7 @@ const InternetConnectionProvider = ({ children }) => {
   return children;
 }
 
+InternetConnectionProvider.propTypes = {
+  children: PropTypes.string.isRequired,
+}
 export default InternetConnectionProvider
