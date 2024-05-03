@@ -23,17 +23,20 @@ const InternetConnectionProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    setIsOnline(navigator.onLine)
+    window.addEventListener("online", e => {
+      setIsOnline(true);
+      close();
+    });
+  
+    window.addEventListener("offline", e => {
+      setIsOnline(false);
+    });
+
+    return () => {
+      // ** CleanUp function to useEffect .. 
+      window.removeEventListener()
+    }
   }, []);
-
-  window.addEventListener("online", e => {
-    setIsOnline(true);
-    close();
-  });
-
-  window.addEventListener("offline", e => {
-    setIsOnline(false);
-  });
 
   if(!isOnline) {
     return <>{ children } {addToast()}</>
