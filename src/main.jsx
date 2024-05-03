@@ -19,15 +19,15 @@ const queryClient = new QueryClient({
 })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <InternetConnectionProvider>
+  <QueryClientProvider client={queryClient}>
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
+      <InternetConnectionProvider>
         <Router>
           <ChakraProvider theme={theme}>
             <App />
           </ChakraProvider>
         </Router>
-      </QueryClientProvider>
+      </InternetConnectionProvider>
     </Provider>
-  </InternetConnectionProvider>
+  </QueryClientProvider>
 )
