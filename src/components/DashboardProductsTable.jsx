@@ -35,7 +35,7 @@ import { useSelector } from 'react-redux';
 import { selectNetwork } from '../app/features/networkSlice';
 
 const DashboardProductsTable = () => {
-  const { isOnline } = useSelector(selectNetwork)
+  const { isOnline } = useSelector(selectNetwork);
   const [clickedProductId, setClickedProductId] = useState(null);
   const [productToEdit, setProductToEdit] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
@@ -89,12 +89,12 @@ const DashboardProductsTable = () => {
   
   useEffect(() => {
     if(isSuccess) {
-      setClickedProductId(null)
-      onClose()
+      setClickedProductId(null);
+      onClose();
     } 
     if(isUpdatingSuccess) {
-      setClickedProductId(null)
-      onModalClose()
+      setClickedProductId(null);
+      onModalClose();
     } 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isUpdatingSuccess])
