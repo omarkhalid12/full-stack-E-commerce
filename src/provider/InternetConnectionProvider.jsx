@@ -22,19 +22,23 @@ const InternetConnectionProvider = ({ children }) => {
     })
   }
 
+  const setOnline = () => {
+    setIsOnline(true);
+    close();
+  }
+
+  const setOffline = () => {
+    setIsOnline(false);
+  }
+
   useEffect(() => {
-    window.addEventListener("online", e => {
-      setIsOnline(true);
-      close();
-    });
-  
-    window.addEventListener("offline", e => {
-      setIsOnline(false);
-    });
+    window.addEventListener("online", setOnline);
+    window.addEventListener("offline", setOffline);
 
     return () => {
       // ** CleanUp function to useEffect .. 
-      window.removeEventListener()
+      window.removeEventListener("online", setOnline)
+      window.removeEventListener("offline", setOffline)
     }
   }, []);
 
