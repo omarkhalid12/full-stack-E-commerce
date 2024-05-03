@@ -5,6 +5,7 @@ import LoginSlice from "./features/loginSlice";
 import cartSlice from "./features/cartSlice";
 import globalSlice from "./features/globalSlice";
 import { productsApiSlice } from "./services/products";
+import networkSlice from "./features/networkSlice";
 
 const persistCartConfig = {
   key: "cart",
@@ -14,6 +15,7 @@ const persistedCart = persistReducer(persistCartConfig, cartSlice);
 
 export const store = configureStore({
   reducer: {
+    network: networkSlice,
     cart: persistedCart,
     login: LoginSlice,
     global: globalSlice,
