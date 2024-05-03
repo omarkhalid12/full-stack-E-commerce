@@ -1,7 +1,8 @@
 import { useToast } from "@chakra-ui/react"
-import { Children, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { BsWifiOff } from "react-icons/bs";
 
-const InternetConnectionProvider = () => {
+const InternetConnectionProvider = ({ children }) => {
   const toast = useToast();
   const toastIdRef = useRef();
   const [isOnline, setIsOnline] = useState(true);
@@ -10,24 +11,35 @@ const InternetConnectionProvider = () => {
     toast.closeAll(toastIdRef.current)
   }
 
+  function addToast() {
+    toastIdRef.current = toast({
+      title: "You'r offline.",
+      description: "Please make sure you have internet connectivity.",
+      status: "warning",
+      duration: null,
+      isClosable: true,
+      icon: <BsWifiOff size={20} />
+    })
+  }
+
   useEffect(() => {
     setIsOnline(navigator.onLine)
   }, []);
 
   window.addEventListener("online", e => {
-    setIsOnline(true)
+    setIsOnline(true);
+    close();
   });
 
   window.addEventListener("offline", e => {
-    setIsOnline(false)
-    close()
+    setIsOnline(false);
   });
 
   if(!isOnline) {
-    return <>{ children }</>
+    return <>{ children } {addToast()}</>
   }
 
-  return { children };
+  return children;
 }
 
 export default InternetConnectionProvider
