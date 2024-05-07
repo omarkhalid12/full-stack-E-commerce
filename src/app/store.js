@@ -1,11 +1,11 @@
 import storage from "redux-persist/lib/storage";
 import { configureStore } from "@reduxjs/toolkit";
 import {persistReducer, persistStore} from "redux-persist";
-import LoginSlice from "./features/loginSlice";
-import cartSlice from "./features/cartSlice";
-import globalSlice from "./features/globalSlice";
-import { productsApiSlice } from "./services/products";
 import networkSlice from "./features/networkSlice";
+import LoginSlice from "./features/loginSlice";
+import globalSlice from "./features/globalSlice";
+import cartSlice from "./features/cartSlice";
+import { productsApiSlice } from "./services/products";
 
 const persistCartConfig = {
   key: "cart",
