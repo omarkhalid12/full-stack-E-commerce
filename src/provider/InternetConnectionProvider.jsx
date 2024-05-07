@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { BsWifiOff } from "react-icons/bs";
 import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
@@ -9,7 +9,6 @@ const InternetConnectionProvider = ({ children }) => {
   const dispatch = useDispatch()
   const toast = useToast();
   const toastIdRef = useRef();
-  const [isOnline, setIsOnline] = useState(true);
 
   function close() {
     toast.closeAll(toastIdRef.current)
@@ -27,13 +26,11 @@ const InternetConnectionProvider = ({ children }) => {
   }
 
   const setOnline = () => {
-    setIsOnline(true);
     dispatch(networkMode(true))
     close();
   }
 
   const setOffline = () => {
-    setIsOnline(false);
     dispatch(networkMode(false))
     addToast()
   }
@@ -48,10 +45,6 @@ const InternetConnectionProvider = ({ children }) => {
       window.removeEventListener("offline", setOffline)
     }
   }, []);
-
-  if(!isOnline) {
-    return <>{ children }</>
-  }
 
   return children;
 }

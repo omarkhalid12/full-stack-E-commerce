@@ -3,26 +3,24 @@ import { Link } from "react-router-dom"
 import PropTypes from 'prop-types';
 
 const ProductCard = ({ attributes, id }) => {
-  ProductCard.propTypes = {
-    attributes: PropTypes.bool.isRequired,
-    id: PropTypes.bool.isRequired,
-  };
   const { colorMode } = useColorMode();
 
   return (
-    <Card border={"1px solid #a8b5c8"} bg={"none"}>
+    <Card border={"1px solid #2d3748"} bg={"none"}>
       <CardBody>
         <Image
-          src={`${import.meta.env.VITE_SERVER_URL}${attributes?.thumbnail?.data?.attributes?.url}`}
+          src={attributes?.thumbnail?.data?.attributes?.formats?.small?.url}
           alt='Green double couch with wooden legs'
           borderRadius="full"
           boxSize={"200px"}
           mx={"auto"}
           objectFit={"cover"}
         />
-        <Stack mt='6' spacing='3' textAlign={"center"} >
-          <Heading size={"md"} mb={2}>{attributes.title}</Heading>
-          <Text fontSize={"sm"}>
+        <Stack mt='6' spacing='3' >
+          <Heading size={"md"} mb={2} textAlign={"center"}>
+            {attributes.title}
+          </Heading>
+          <Text fontSize={"sm"} textAlign={"center"}>
             This sofa is perfect for modern tropical spaces, baroque inspired
             spaces, earthy toned spaces and for people who love a chic design with a
             sprinkle of vintage design.
@@ -55,5 +53,10 @@ const ProductCard = ({ attributes, id }) => {
     </Card>
   )
 }
+
+ProductCard.propTypes = {
+  attributes: PropTypes.bool.isRequired,
+  id: PropTypes.bool.isRequired,
+};
 
 export default ProductCard

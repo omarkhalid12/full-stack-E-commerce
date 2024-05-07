@@ -133,8 +133,9 @@ const DashboardProductsTable = () => {
                       borderRadius='full'
                       objectFit={"cover"}
                       boxSize="40px"
-                      src={`${import.meta.env.VITE_SERVER_URL}${
-                        product?.attributes?.thumbnail?.data?.attributes?.formats?.thumbnail?.url}`}
+                      src={
+                        product?.attributes?.thumbnail?.data?.attributes?.formats?.thumbnail?.url
+                        }
                       alt={product?.attributes?.title}
                     />
                   </Td>
